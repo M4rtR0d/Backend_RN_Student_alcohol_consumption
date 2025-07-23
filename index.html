@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Prediccion de Calificacion usando modelo de redes neronales</h2>
+        <form id="predictionForm">
+            <div class="form-group" id="div-school">
+            <label>Escuela:</label>
+            <select id="school">
+                <option value="0">Gabriel Pererira (GP)</option>
+                <option value="1">Mousinho de Silveira (MS)</option>
+            </select>
+            </div>
+            <div class="form-group" id="div-sex">
+                <label>Sexo:</label>
+                <select id="sex">
+                    <option value="0">Femenino (F)</option>
+                    <option value="1">Masculino (M)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-age">
+                <label>Edad:</label>
+                <select id="age">
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-address">
+                <label>Dirección:</label>
+                <select id="address">
+                    <option value="0">Urbana (U)</option>
+                    <option value="1">Rural (R)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-famsize">
+                <label>Tamaño de familia:</label>
+                <select id="famsize">
+                    <option value="0">Menor o igual a 3 (LE3)</option>
+                    <option value="1">Mayor a 3 (GT3)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-pstatus">
+                <label>Estado de convivencia de los padres:</label>
+                <select id="pstatus">
+                    <option value="0">Juntos (T)</option>
+                    <option value="1">Separados (A)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-medu">
+                <label>Educación de la madre:</label>
+                <select id="medu">
+                    <option value="0">Ninguna</option>
+                    <option value="1">Primaria (4to grado)</option>
+                    <option value="2">5to a 9no grado</option>
+                    <option value="3">Secundaria</option>
+                    <option value="4">Superior</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-fedu">
+                <label>Educación del padre:</label>
+                <select id="fedu">
+                    <option value="0">Ninguna</option>
+                    <option value="1">Primaria (4to grado)</option>
+                    <option value="2">5to a 9no grado</option>
+                    <option value="3">Secundaria</option>
+                    <option value="4">Superior</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-mjob">
+                <label>Trabajo de la madre:</label>
+                <select id="mjob">
+                    <option value="0">Teacher</option>
+                    <option value="1">Health</option>
+                    <option value="2">Services</option>
+                    <option value="3">At_home</option>
+                    <option value="4">Other</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-fjob">
+                <label>Trabajo del padre:</label>
+                <select id="fjob">
+                    <option value="0">Teacher</option>
+                    <option value="1">Health</option>
+                    <option value="2">Services</option>
+                    <option value="3">At_home</option>
+                    <option value="4">Other</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-reason">
+                <label>Razón para elegir la escuela:</label>
+                <select id="reason">
+                    <option value="0">Cerca de casa (home)</option>
+                    <option value="1">Reputación (reputation)</option>
+                    <option value="2">Curso (course)</option>
+                    <option value="3">Otra (other)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-guardian">
+                <label>Tutor:</label>
+                <select id="guardian">
+                    <option value="0">Madre (mother)</option>
+                    <option value="1">Padre (father)</option>
+                    <option value="2">Otro (other)</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-traveltime">
+                <label>Tiempo de viaje a la escuela:</label>
+                <select id="traveltime">
+                    <option value="1">&lt;15 min</option>
+                    <option value="2">15-30 min</option>
+                    <option value="3">30-60 min</option>
+                    <option value="4">&gt;1 hora</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-studytime">
+                <label>Tiempo de estudio semanal:</label>
+                <select id="studytime">
+                    <option value="1">&lt;2 horas</option>
+                    <option value="2">2-5 horas</option>
+                    <option value="3">5-10 horas</option>
+                    <option value="4">&gt;10 horas</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-failures">
+                <label>Número de suspensos previos:</label>
+                <select id="failures">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4 o más</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-schoolsup">
+                <label>Apoyo escolar extra:</label>
+                <select id="schoolsup">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-famsup">
+                <label>Apoyo familiar educativo:</label>
+                <select id="famsup">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-paid">
+                <label>Clases pagadas extra:</label>
+                <select id="paid">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-activities">
+                <label>Actividades extraescolares:</label>
+                <select id="activities">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-nursery">
+                <label>Asistió a enfermería:</label>
+                <select id="nursery">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-higher">
+                <label>Desea educación superior:</label>
+                <select id="higher">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-internet">
+                <label>Acceso a Internet en casa:</label>
+                <select id="internet">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-romantic">
+                <label>Relación romántica:</label>
+                <select id="romantic">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-famrel">
+                <label>Relación familiar:</label>
+                <select id="famrel">
+                    <option value="1">Muy mala</option>
+                    <option value="2">Mala</option>
+                    <option value="3">Media</option>
+                    <option value="4">Buena</option>
+                    <option value="5">Excelente</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-freetime">
+                <label>Tiempo libre después de la escuela:</label>
+                <select id="freetime">
+                    <option value="1">Muy bajo</option>
+                    <option value="2">Bajo</option>
+                    <option value="3">Medio</option>
+                    <option value="4">Alto</option>
+                    <option value="5">Muy alto</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-goout">
+                <label>Salir con amigos:</label>
+                <select id="goout">
+                    <option value="1">Muy bajo</option>
+                    <option value="2">Bajo</option>
+                    <option value="3">Medio</option>
+                    <option value="4">Alto</option>
+                    <option value="5">Muy alto</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-dalc">
+                <label>Consumo de alcohol entre semana:</label>
+                <select id="dalc">
+                    <option value="1">Muy bajo</option>
+                    <option value="2">Bajo</option>
+                    <option value="3">Medio</option>
+                    <option value="4">Alto</option>
+                    <option value="5">Muy alto</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-walc">
+                <label>Consumo de alcohol en fin de semana:</label>
+                <select id="walc">
+                    <option value="1">Muy bajo</option>
+                    <option value="2">Bajo</option>
+                    <option value="3">Medio</option>
+                    <option value="4">Alto</option>
+                    <option value="5">Muy alto</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-health">
+                <label>Estado de salud:</label>
+                <select id="health">
+                    <option value="1">Muy malo</option>
+                    <option value="2">Malo</option>
+                    <option value="3">Medio</option>
+                    <option value="4">Bueno</option>
+                    <option value="5">Muy bueno</option>
+                </select>
+            </div>
+            <div class="form-group" id="div-absences">
+                <label>Faltas escolares:</label>
+                <select id="absences">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <!-- Puedes agregar más opciones hasta 93 si lo deseas -->
+                </select>
+            </div>
+            <div class="form-group" id="div-famrel">
+                <label>Calificacion G1 (Primer Corte 0 - 20):</label>
+                <input type="number" id="G1" min="0" max="20" step="0.1" required>
+            </div>
+            <div class="form-group" id="div-famrel">
+                <label>Calificacion G2 (Segundo Corte 0 - 20):</label>
+                <input type="number" id="G2" min="0" max="20" step="0.1" required>
+            </div>
+            <button type="submit">Predecir</button>
+        </form>
+
+        <div class="result" id="result"></div>
+        <div class="error" id="error"></div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('predictionForm');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+
+        form.addEventListener('submit', async function(event){
+            event.preventDefault();
+            result.textContent = '';
+            error.textContent = '';
+
+            //Recogemos todos los valores de los campos del formulario
+            const school = document.getElementById('school').value;
+            const sex = document.getElementById('sex').value;
+            const age = document.getElementById('age').value;
+            const address = document.getElementById('address').value;
+            const famsize = document.getElementById('famsize').value;
+            const pstatus = document.getElementById('pstatus').value;
+            const medu = document.getElementById('medu').value;
+            const fedu = document.getElementById('fedu').value;
+            const mjob = document.getElementById('mjob').value;
+            const fjob = document.getElementById('fjob').value;
+            const reason = document.getElementById('reason').value;
+            const guardian = document.getElementById('guardian').value;
+            const traveltime = document.getElementById('traveltime').value;
+            const studytime = document.getElementById('studytime').value;
+            const failures = document.getElementById('failures').value;
+            const schoolsup = document.getElementById('schoolsup').value;
+            const famsup = document.getElementById('famsup').value;
+            const paid = document.getElementById('paid').value;
+            const activities = document.getElementById('activities').value;
+            const nursery = document.getElementById('nursery').value;
+            const higher = document.getElementById('higher').value;
+            const internet = document.getElementById('internet').value;
+            const romantic = document.getElementById('romantic').value;
+            const famrel = document.getElementById('famrel').value;
+            const freetime = document.getElementById('freetime').value;
+            const goout = document.getElementById('goout').value;
+            const dalc = document.getElementById('dalc').value;
+            const walc = document.getElementById('walc').value;
+            const health = document.getElementById('health').value;
+            const absences = document.getElementById('absences').value;
+            const G1 = document.getElementById('G1').value;
+            const G2 = document.getElementById('G2').value;
+
+            const G_prev_avg = (parseInt(G1) + parseInt(G2)) / 2;
+            const alcohol_total = parseInt(dalc) + parseInt(walc);
+
+
+            const features = [
+                school, sex, age, address, famsize, pstatus, medu, fedu,
+                mjob, fjob, reason, guardian, traveltime, studytime, failures,
+                schoolsup, famsup, paid, activities, nursery, higher, internet, romantic,
+                famrel, freetime, goout, dalc, walc, health, absences, G_prev_avg, 
+                alcohol_total
+            ];
+
+             // Mostrar el JSON en pantalla
+            //featuresJson.textContent = JSON.stringify(features, null, 2);
+
+            
+            try{
+                const response = await fetch('http://127.0.0.1:8000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ features })
+                });
+                if(!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.detail || 'Error en la petición');
+                }
+                const data = await response.json();
+                result.textContent = `Predicción de calificación: ${data.prediction}`;
+
+            }
+            catch(err) {
+                error.textContent = `Error: ${err.message}`;
+            }
+              
+        });
+
+        
+    </script>
+</body>
+</html>
