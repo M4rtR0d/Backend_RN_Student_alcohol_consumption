@@ -1,7 +1,3 @@
 fastapi
 uvicorn[standard]
-tensorflow
-numpy
-pandas
-scikit-learn
 python-multipart
