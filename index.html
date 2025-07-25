@@ -364,7 +364,7 @@
                     throw new Error(data.detail || 'Error en la petición');
                 }
                 const data = await response.json();
-                result.textContent = `Predicción de calificación: ${data.prediction}`;
+                result.textContent = `Predicción de calificación: ${data.predicted_grade.toFixed(2)}`;
 
             }
             catch(err) {
