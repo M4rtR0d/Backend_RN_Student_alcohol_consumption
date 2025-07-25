@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bookworm
+FROM python:3.10-slim
 
 # Ensure system packages are up to date and security patches are applied
 
