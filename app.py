@@ -1,7 +1,10 @@
+import tensorflow as tf
 from fastapi import FastAPI,HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from websockets import Origin
+from fastapi.responses import RedirectResponse
+
 
 # cargar el Modelo
 name_model = 'modelo_entrenado1.h5'
@@ -26,6 +29,10 @@ app.add_middleware(
 class StudentData(BaseModel):
     features: list # Lista de características del estudiante
 
+@app.get("/")
+def root():
+    return RedirectResponse(url="/predict")
+
 # Ruta de estado
 @app.get("/status")
 async def status():
@@ -35,8 +42,6 @@ async def status():
     }
 
 #Ruta de prediccion
-
-
 @app.post("/predict")
 async def predict(request: Request):
     data = await request.json()
