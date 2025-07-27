@@ -19,7 +19,7 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permitir todas las origines
+    allow_origins=["https://frontendrn-sac4-a3c9g5a6hccwe6dw.centralus-01.azurewebsites.net"],  # Permitir todas las origines
     allow_credentials=True, # Permitir credenciales
     allow_methods=["*"],  # Permitir todos los métodos
     allow_headers=["*"],  # Permitir todos los encabezados
@@ -50,20 +50,3 @@ async def predict(request: Request):
     # Si la predicción es un array, extrae el valor
     pred_value = float(predicted_grade[0][0])
     return {"predicted_grade": round(pred_value, 2)}
-'''
-
-@app.post("/predict")
-def predict(data: StudentData):
-    # Realizar la predicción
-    try:
-        # Convertir la lista de características a un array de numpy
-        features = np.array(data.features, dtype=np.float32).reshape(1, -1)
-        #realiza la prediccion
-        prediction = modelo.predict(features)
-        grade = float(prediction[0][0])
-
-        return {"predicted_class": round(grade, 2)}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-        https://student-alcohol-consumption-api.onrender.com
-        '''
