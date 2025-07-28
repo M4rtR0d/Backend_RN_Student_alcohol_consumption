@@ -19,7 +19,7 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://frontendrn-sac4-a3c9g5a6hccwe6dw.centralus-01.azurewebsites.net",
+    allow_origins=["https://frontend-rn-sac-b6f3a8csggevh0e9.centralus-01.azurewebsites.net",
                    "http://localhost:5173"],  # Para desarrollo local
     allow_credentials=True, # Permitir credenciales
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Permitir todos los métodos
