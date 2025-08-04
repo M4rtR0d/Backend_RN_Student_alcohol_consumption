@@ -19,9 +19,9 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://frontendrn-sac4-a3c9g5a6hccwe6dw.centralus-01.azurewebsites.net"],  # Permitir todas las origines
+    allow_origins=["*"],  # Permitir todas las origines
     allow_credentials=True, # Permitir credenciales
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Permitir todos los métodos
+    allow_methods=["*"],  # Permitir todos los métodos
     allow_headers=["*"],  # Permitir todos los encabezados
 )
 
