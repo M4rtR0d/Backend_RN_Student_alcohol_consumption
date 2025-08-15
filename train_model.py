@@ -50,7 +50,7 @@ def create_neural_network(input_dim, learning_rate=0.001, dropout_rates=[0.5, 0.
         layers.Dropout(0.2),
 
         # Capa de salida
-        layers.Dense(1, activation='linear')
+        layers.Dense(1, activation='sigmoid')
     ])
     return model
 
@@ -225,10 +225,19 @@ def train_model():
         
         print(f"🎯 Variable objetivo G3 - Rango: {y.min()} a {y.max()}")
         
-        # Guardar el orden de las columnas
+        TARGET_MAX = 20.0  # Valor máximo esperado para las calificaciones
+        y_normalized = y / TARGET_MAX
+        print(f"🎯 Variable objetivo normalizada - Rango: {y_normalized.min():.3f} a {y_normalized.max():.3f}")
+        
+        # Guardar el orden de las columnas y factor de escalado
         column_order = X.columns.tolist()
-        with open('column_order.json', 'w') as f:
-            json.dump(column_order, f, indent=2)
+        model_config = {
+            'column_order': column_order,
+            'target_max': TARGET_MAX
+        }
+
+        with open('model_config.json', 'w') as f:
+            json.dump(model_config, f, indent=2)
         
         
         # Identificar columnas categóricas y numéricas
@@ -247,11 +256,16 @@ def train_model():
             label_encoders[col] = le
             
         
-        # Crear bins para estratificación mejorada
-        y_bins = pd.cut(y, bins=5, labels=[1, 2, 3, 4, 5])
-        
+        # Crear bins para estratificación mejorada (usando y normalizado)
+        y_bins = pd.cut(y_normalized, bins=5, labels=[1, 2, 3, 4, 5])
+
         # Split de datos estratificado
-        X_train, X_test, y_train, y_test = train_test_split(
+        X_train, X_test, y_train_norm, y_test_norm = train_test_split(
+            X_encoded, y_normalized, test_size=0.2, random_state=42, stratify=y_bins
+        )
+
+        # También mantener las versiones originales para evaluación
+        _, _, y_train_orig, y_test_orig = train_test_split(
             X_encoded, y, test_size=0.2, random_state=42, stratify=y_bins
         )
                 
@@ -261,6 +275,7 @@ def train_model():
         X_test_scaled = scaler.transform(X_test)
         
         print("✅ Datos escalados con RobustScaler")
+        print(f"✅ Target normalizado al rango [0,1]")
         
         # Crear modelo de red neuronal
         neural_network = create_neural_network(len(column_order))
@@ -308,7 +323,7 @@ def train_model():
         start_time = time.time()
         
         history = neural_network.fit(
-            X_train_scaled, y_train,
+            X_train_scaled, y_train_norm,
             epochs=300,
             batch_size=32,
             validation_split=0.2,
@@ -329,18 +344,22 @@ def train_model():
         
         # Evaluación en conjunto de prueba
         print("\n📊 EVALUACIÓN FINAL:")
-        y_pred = neural_network.predict(X_test_scaled).flatten()
+        y_pred_norm = neural_network.predict(X_test_scaled).flatten()
+
+        # Desnormalizar predicciones al rango original (0-20)
+        y_pred = y_pred_norm * TARGET_MAX
         
-        print(f"📊 Rango de predicciones: {y_pred.min():.2f} a {y_pred.max():.2f}")
-        print(f"📊 Rango de valores reales: {y_test.min():.2f} a {y_test.max():.2f}")
+        print(f"📊 Rango de predicciones normalizadas: {y_pred_norm.min():.3f} a {y_pred_norm.max():.3f}")
+        print(f"📊 Rango de predicciones desnormalizadas: {y_pred.min():.2f} a {y_pred.max():.2f}")
+        print(f"📊 Rango de valores reales: {y_test_orig.min():.2f} a {y_test_orig.max():.2f}")
         
-        # Aplicar clipping para mantener predicciones en rango válido
-        y_pred_clipped = np.clip(y_pred, 0, 20)
+        # Las predicciones ya deberían estar en el rango correcto, pero por seguridad:
+        y_pred_final = np.clip(y_pred, 0, TARGET_MAX)
         
-        # Calcular métricas
-        mse = mean_squared_error(y_test, y_pred_clipped)
-        mae = mean_absolute_error(y_test, y_pred_clipped)
-        r2 = r2_score(y_test, y_pred_clipped)
+        # Calcular métricas usando valores desnormalizados
+        mse = mean_squared_error(y_test_orig, y_pred_final)
+        mae = mean_absolute_error(y_test_orig, y_pred_final)
+        r2 = r2_score(y_test_orig, y_pred_final)
         rmse = np.sqrt(mse)
         
         print(f"📈 Métricas de evaluación:")
@@ -366,7 +385,14 @@ def train_model():
         # Información completa del modelo
         model_info = {
             'timestamp': timestamp,
-            'model_version': '2.0',
+            'model_version': '2.1',  # Actualizar versión
+            'model_type': 'sigmoid_normalized',  # Nuevo campo
+            'target_normalization': {
+                'method': 'linear_scaling',
+                'original_range': [float(y.min()), float(y.max())],
+                'normalized_range': [0.0, 1.0],
+                'scaling_factor': float(TARGET_MAX)
+            },
             'dataset_info': {
                 'total_samples': int(len(df1)),
                 'train_samples': int(len(X_train)),
@@ -385,6 +411,7 @@ def train_model():
             'model_architecture': {
                 'total_parameters': int(neural_network.count_params()),
                 'layers': len(neural_network.layers),
+                'output_activation': 'sigmoid',  # Actualizado
                 'optimizer': 'Adam',
                 'loss_function': 'mse'
             },
@@ -394,13 +421,14 @@ def train_model():
                 'rmse': float(rmse),
                 'mae': float(mae),
                 'r2_score': float(r2),
-                'training_time_seconds': float(training_time)
+                'training_time_seconds': float(training_time),
+                'prediction_range': [float(y_pred_final.min()), float(y_pred_final.max())]
             },
             'files_generated': {
                 'model': model_filename,
                 'encoders': encoders_filename,
                 'scaler': scaler_filename,
-                'column_order': 'column_order.json',
+                'config': 'model_config.json',  # Actualizado
                 'training_plot': 'training_history.png'
             }
         }
