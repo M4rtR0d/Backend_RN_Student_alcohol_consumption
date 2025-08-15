@@ -12,15 +12,15 @@
             <div class="form-group" id="div-school">
             <label>Escuela:</label>
             <select id="school">
-                <option value="0">Gabriel Pererira (GP)</option>
-                <option value="1">Mousinho de Silveira (MS)</option>
+                <option value="GP">Gabriel Pererira (GP)</option>
+                <option value="MS">Mousinho de Silveira (MS)</option>
             </select>
             </div>
             <div class="form-group" id="div-sex">
                 <label>Sexo:</label>
                 <select id="sex">
-                    <option value="0">Femenino (F)</option>
-                    <option value="1">Masculino (M)</option>
+                    <option value="F">Femenino (F)</option>
+                    <option value="M">Masculino (M)</option>
                 </select>
             </div>
             <div class="form-group" id="div-age">
@@ -39,79 +39,79 @@
             <div class="form-group" id="div-address">
                 <label>Dirección:</label>
                 <select id="address">
-                    <option value="0">Urbana (U)</option>
-                    <option value="1">Rural (R)</option>
+                    <option value="U">Urbana (U)</option>
+                    <option value="R">Rural (R)</option>
                 </select>
             </div>
             <div class="form-group" id="div-famsize">
                 <label>Tamaño de familia:</label>
                 <select id="famsize">
-                    <option value="0">Menor o igual a 3 (LE3)</option>
-                    <option value="1">Mayor a 3 (GT3)</option>
+                    <option value="LE3">Menor o igual a 3 (LE3)</option>
+                    <option value="GT3">Mayor a 3 (GT3)</option>
                 </select>
             </div>
             <div class="form-group" id="div-pstatus">
                 <label>Estado de convivencia de los padres:</label>
                 <select id="pstatus">
-                    <option value="0">Juntos (T)</option>
-                    <option value="1">Separados (A)</option>
+                    <option value="T">Juntos (T)</option>
+                    <option value="A">Separados (A)</option>
                 </select>
             </div>
             <div class="form-group" id="div-medu">
                 <label>Educación de la madre:</label>
                 <select id="medu">
-                    <option value="0">Ninguna</option>
-                    <option value="1">Primaria (4to grado)</option>
-                    <option value="2">5to a 9no grado</option>
-                    <option value="3">Secundaria</option>
-                    <option value="4">Superior</option>
+                    <option value="none">Ninguna</option>
+                    <option value="primary">Primaria (4to grado)</option>
+                    <option value="5-9">5to a 9no grado</option>
+                    <option value="secondary">Secundaria</option>
+                    <option value="higher">Superior</option>
                 </select>
             </div>
             <div class="form-group" id="div-fedu">
                 <label>Educación del padre:</label>
                 <select id="fedu">
-                    <option value="0">Ninguna</option>
-                    <option value="1">Primaria (4to grado)</option>
-                    <option value="2">5to a 9no grado</option>
-                    <option value="3">Secundaria</option>
-                    <option value="4">Superior</option>
+                    <option value="none">Ninguna</option>
+                    <option value="primary">Primaria (4to grado)</option>
+                    <option value="5-9">5to a 9no grado</option>
+                    <option value="secondary">Secundaria</option>
+                    <option value="higher">Superior</option>
                 </select>
             </div>
             <div class="form-group" id="div-mjob">
                 <label>Trabajo de la madre:</label>
                 <select id="mjob">
-                    <option value="0">Teacher</option>
-                    <option value="1">Health</option>
-                    <option value="2">Services</option>
-                    <option value="3">At_home</option>
-                    <option value="4">Other</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="health">Health</option>
+                    <option value="services">Services</option>
+                    <option value="at_home">At_home</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div class="form-group" id="div-fjob">
                 <label>Trabajo del padre:</label>
                 <select id="fjob">
-                    <option value="0">Teacher</option>
-                    <option value="1">Health</option>
-                    <option value="2">Services</option>
-                    <option value="3">At_home</option>
-                    <option value="4">Other</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="health">Health</option>
+                    <option value="services">Services</option>
+                    <option value="at_home">At_home</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div class="form-group" id="div-reason">
                 <label>Razón para elegir la escuela:</label>
                 <select id="reason">
-                    <option value="0">Cerca de casa (home)</option>
-                    <option value="1">Reputación (reputation)</option>
-                    <option value="2">Curso (course)</option>
-                    <option value="3">Otra (other)</option>
+                    <option value="home">Cerca de casa (home)</option>
+                    <option value="reputation">Reputación (reputation)</option>
+                    <option value="course">Curso (course)</option>
+                    <option value="other">Otra (other)</option>
                 </select>
             </div>
             <div class="form-group" id="div-guardian">
                 <label>Tutor:</label>
                 <select id="guardian">
-                    <option value="0">Madre (mother)</option>
-                    <option value="1">Padre (father)</option>
-                    <option value="2">Otro (other)</option>
+                    <option value="mother">Madre (mother)</option>
+                    <option value="father">Padre (father)</option>
+                    <option value="other">Otro (other)</option>
                 </select>
             </div>
             <div class="form-group" id="div-traveltime">
@@ -335,7 +335,7 @@
             const G1 = document.getElementById('G1').value;
             const G2 = document.getElementById('G2').value;
 
-            const G_prev_avg = (parseInt(G1) + parseInt(G2)) / 2;
+            const G_prev_avg = (parseFloat(G1) + parseFloat(G2)) / 2;
             const alcohol_total = parseInt(dalc) + parseInt(walc);
 
 
@@ -364,7 +364,14 @@
                     throw new Error(data.detail || 'Error en la petición');
                 }
                 const data = await response.json();
-                result.textContent = `Predicción de calificación: ${data.predicted_grade.toFixed(2)}`;
+                let resultText = `Predicción de calificación: ${data.predicted_grade}`;
+                if (data.was_clipped) {
+                    resultText += ` (ajustada desde ${data.raw_prediction})`;
+                }
+                if (data.confidence) {
+                    resultText += ` [Confianza: ${data.confidence}]`;
+                }
+                result.textContent = resultText;
 
             }
             catch(err) {
