@@ -101,7 +101,6 @@ def plot_training_history(history, save_path='training_history.png'):
     plt.close()
 
 def analyze_training_history(history):
-    """Analizar el historial de entrenamiento de manera más completa"""
     print("\n📊 ANÁLISIS DETALLADO DEL ENTRENAMIENTO:")
     
     epochs_completed = len(history.history['loss'])
@@ -225,21 +224,18 @@ def train_model():
         y = df1['G3'].copy()
         
         print(f"🎯 Variable objetivo G3 - Rango: {y.min()} a {y.max()}")
-        print(f"🎯 Distribución G3 - Media: {y.mean():.2f}, Std: {y.std():.2f}")
         
         # Guardar el orden de las columnas
         column_order = X.columns.tolist()
         with open('column_order.json', 'w') as f:
             json.dump(column_order, f, indent=2)
         
-        print(f"📝 Orden de columnas guardado: {len(column_order)} características")
         
         # Identificar columnas categóricas y numéricas
         categorical_features = X.select_dtypes(include=['object']).columns.tolist()
         numerical_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
         
-        print(f"🏷️  Columnas categóricas ({len(categorical_features)}): {categorical_features}")
-        print(f"🔢 Columnas numéricas ({len(numerical_features)}): {numerical_features}")
+        
         
         # Codificación de variables categóricas
         label_encoders = {}
@@ -249,7 +245,7 @@ def train_model():
             le = LabelEncoder()
             X_encoded[col] = le.fit_transform(X[col].astype(str))
             label_encoders[col] = le
-            print(f"✅ Codificador para {col}: {len(le.classes_)} clases únicas")
+            
         
         # Crear bins para estratificación mejorada
         y_bins = pd.cut(y, bins=5, labels=[1, 2, 3, 4, 5])
@@ -258,11 +254,7 @@ def train_model():
         X_train, X_test, y_train, y_test = train_test_split(
             X_encoded, y, test_size=0.2, random_state=42, stratify=y_bins
         )
-        
-        print(f"📊 Datos divididos: {X_train.shape[0]} entrenamiento, {X_test.shape[0]} prueba")
-        print(f"📊 Distribución en entrenamiento - Media: {y_train.mean():.2f}")
-        print(f"📊 Distribución en prueba - Media: {y_test.mean():.2f}")
-        
+                
         # Escalado con RobustScaler (mejor para outliers)
         scaler = RobustScaler()
         X_train_scaled = scaler.fit_transform(X_train)
@@ -417,7 +409,7 @@ def train_model():
         with open(info_filename, 'w', encoding='utf-8') as f:
             json.dump(model_info, f, indent=2, ensure_ascii=False)
         
-        print("\n✅ Pipeline completado exitosamente")
+        print("\n✅ Entrenamiento completado exitosamente")
         print(f"📁 Archivos generados:")
         for key, filename in model_info['files_generated'].items():
             print(f"   - {filename}")
